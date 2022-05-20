@@ -27,18 +27,9 @@ public class RuletaController {
     @Autowired
     private ApuestaDAO apuestaDAO;
 
-    @PostMapping
-    public ResponseEntity<?> crearRuleta (@Valid @RequestBody Ruleta ruleta, BindingResult result) {
-        Map<String, Object> validaciones = new HashMap<String, Object>();
-        if (result.hasErrors()) {
-            List<String> listaErrores = result.getFieldErrors()
-                    .stream()
-                    .map(errores -> "Campo '" + errores.getField() + "' " + errores.getDefaultMessage())
-                    .collect(Collectors.toList());
-            validaciones.put("Lista errores", listaErrores);
-            return new ResponseEntity<Map<String, Object>>(validaciones, HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<Ruleta>(ruletaDAO.creaRuleta(ruleta), HttpStatus.CREATED);
+    @GetMapping
+    public ResponseEntity<?> crearRuleta () {
+        return new ResponseEntity<Ruleta>(ruletaDAO.creaRuleta(new Ruleta()), HttpStatus.CREATED);
     }
 
     @GetMapping("/abre/{ruletaId}")
