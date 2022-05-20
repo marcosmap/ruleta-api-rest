@@ -1,0 +1,42 @@
+//System.out.println(apuestaDAO.creaApuesta(new Apuesta(100, ColorApuesta.ROJO, new BigDecimal(105.40)), 1).toString());
+//ruletaDAO.apuestaRuleta(1, new Apuesta(25, ColorApuesta.NEGRO, new BigDecimal(6523.25)));
+
+
+
+
+DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+ Date date = new Date();
+  System.out.println("Hora actual: " + dateFormat.format(date));
+
+
+// 1. CREAR RULETAS
+        /* int i = 0;
+        while (i < 4) {
+            Ruleta ruleta = new Ruleta();
+            System.out.println(ruletaDAO.creaRuleta(ruleta).toString());
+            i++;
+        } */
+
+        // 2. ABRIR RULETAS
+        /*System.out.println("ABRIENDO RULETA...");
+        System.out.println(ruletaDAO.abreRuleta(4));*/
+        // System.out.println(ruletaDAO.abreRuleta(1).toString());
+
+        // 3. APUESTA A UN NUMERO O COLOR  ----> primero se debe crear o guardar la apuesta y después asignarle la ruleta
+        /*System.out.println("CREA APUESTA");
+        Ruleta ruleta = ruletaDAO.buscaRuletaPorId(3).get();
+        //System.out.println(ruleta.toString());
+        Apuesta apuesta1 = new Apuesta(10, null, 450.0);
+        Apuesta apuesta2 = new Apuesta(null, ColorApuesta.ROJO, 65.45);
+        //System.out.println(apuesta.toString());
+        //System.out.println(apuestaDAO.guardaApuesta(apuesta).toString());
+        apuestaDAO.creaApuesta(apuesta1, 4);
+        apuestaDAO.creaApuesta(apuesta2, 4);*/
+
+        // 4. CIERRE DE APUESTA DADO UN ID DE RULETA
+        /*System.out.println("CERRANDO APUESTAS...");
+        System.out.println(ruletaDAO.cierraApuesta(4));*/
+        //System.out.println(ruletaDAO.cierraApuesta(3));
+
+        // 5. LISTADO DE RULETAS
+        //ruletaDAO.listaRuletas().forEach(System.out::println);
