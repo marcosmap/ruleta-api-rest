@@ -50,21 +50,26 @@ public class RuletaDAOImp implements RuletaDAO{
     @Override
     @Transactional
     public List<Apuesta> cierraApuesta(Integer ruletaId) {
-        Ruleta ruleta = ruletaRepository.findById(ruletaId).get();
+        Optional<Ruleta> ruleta = ruletaRepository.findById(ruletaId);
         List<Apuesta> apuestasByRuletaId = new ArrayList<>();
-        if (ruleta.isEstadoRuleta()) {
-            ruleta.setHoraCierre(new Date());
-            ruleta.setEstadoRuleta(false);
-            Set<Apuesta> apuestas =  ruleta.getApuestas();
-            for(Apuesta apuesta: apuestas) {
-                if ( apuesta.getRuleta().getId().equals(ruletaId) && (apuesta.getRuleta().getHoraApertura().before(apuesta.getHoraApuesta())) )
-                    apuestasByRuletaId.add(apuesta);
+
+        if (!ruleta.isPresent())
+            throw new BadRequestException(String.format("La ruleta con ID: %d no existe", ruletaId));
+        else {
+            if (ruleta.get().isEstadoRuleta()) {
+                ruleta.get().setHoraCierre(new Date());
+                ruleta.get().setEstadoRuleta(false);
+                Set<Apuesta> apuestas =  ruleta.get().getApuestas();
+                for(Apuesta apuesta: apuestas) {
+                    if ( apuesta.getRuleta().getId().equals(ruletaId) && (apuesta.getRuleta().getHoraApertura().before(apuesta.getHoraApuesta())) )
+                        apuestasByRuletaId.add(apuesta);
+                }
+                ruletaRepository.save(ruleta.get());
+                return apuestasByRuletaId;
             }
-            ruletaRepository.save(ruleta);
-            return apuestasByRuletaId;
+            else
+                throw new BadRequestException(String.format("Ruleta con ID: %d esta cerrada", ruletaId));
         }
-        else
-            throw new BadRequestException(String.format("Ruleta con ID: %d esta cerrada", ruletaId));
     }
 
     @Override

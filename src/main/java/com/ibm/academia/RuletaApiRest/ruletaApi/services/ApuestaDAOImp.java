@@ -31,10 +31,12 @@ public class ApuestaDAOImp implements ApuestaDAO{
                 if (apuesta.getColorApuesta() == null && apuesta.getNumero() == null) {
                     throw new BadRequestException("Se debe dar un numero o un color para apostar");
                 }
-                else if (apuesta.getColorApuesta() != null && apuesta.getNumero() != null) {
+
+                if (apuesta.getColorApuesta() != null && apuesta.getNumero() != null) {
                     throw new BadRequestException("Solo se puede apostar a un numero o a un color pero no a ambos");
                 }
-                else if (apuesta.getColorApuesta() == null && apuesta.getNumero() != null) {
+
+                if (apuesta.getColorApuesta() == null && apuesta.getNumero() != null) {
                     if (apuesta.getNumero() < 0 || apuesta.getNumero() > 36)
                         throw new BadRequestException("Solo se aceptan numeros del 0-36");
                     else {
@@ -46,9 +48,10 @@ public class ApuestaDAOImp implements ApuestaDAO{
                             apuesta.setResultadoApuesta(ResultadoApuesta.PERDIDA);
                     }
                 }
-                else if (apuesta.getColorApuesta() != null && apuesta.getNumero() == null) {
-                    if ( !apuesta.getColorApuesta().equals(ColorApuesta.NEGRO) && !apuesta.getColorApuesta().equals(ColorApuesta.ROJO))
-                        throw new BadRequestException("Colores validos: NEGRO-ROJO");
+
+                if (apuesta.getColorApuesta() != null && apuesta.getNumero() == null) {
+                    if ( !apuesta.getColorApuesta().equals(ColorApuesta.NEGRO) && !apuesta.getColorApuesta().equals(ColorApuesta.ROJO) )
+                        throw new BadRequestException("Colores validos: NEGRO - ROJO");
                     else {
                         int numRandom = (int) (Math.random() * 2);
                         System.out.println(numRandom);
@@ -75,7 +78,9 @@ public class ApuestaDAOImp implements ApuestaDAO{
                     }
                 }
 
-                if (apuesta.getCantidad() <= 0 || apuesta.getCantidad() > 10000)
+                if (apuesta.getCantidad() == null)
+                    throw new BadRequestException("No se permiten valores nulos, se debe ingresar una cantidad de dinero valida");
+                else if (apuesta.getCantidad() <= 0 || apuesta.getCantidad() > 10000)
                     throw new BadRequestException("Solo se aceptan apuestas de 1 a 10000 dolares");
 
                 apuesta.setHoraApuesta(new Date());
