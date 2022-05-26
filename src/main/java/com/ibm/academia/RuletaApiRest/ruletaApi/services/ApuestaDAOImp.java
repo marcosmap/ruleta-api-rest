@@ -8,10 +8,15 @@ import com.ibm.academia.RuletaApiRest.ruletaApi.exceptions.handler.BadRequestExc
 import com.ibm.academia.RuletaApiRest.ruletaApi.repositories.ApuestaRepository;
 import com.ibm.academia.RuletaApiRest.ruletaApi.repositories.RuletaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -50,9 +55,7 @@ public class ApuestaDAOImp implements ApuestaDAO{
                 }
 
                 if (apuesta.getColorApuesta() != null && apuesta.getNumero() == null) {
-                    if ( !apuesta.getColorApuesta().equals(ColorApuesta.NEGRO) && !apuesta.getColorApuesta().equals(ColorApuesta.ROJO) )
-                        throw new BadRequestException("Colores validos: NEGRO - ROJO");
-                    else {
+                    if (apuesta.getColorApuesta().equals(ColorApuesta.NEGRO) || apuesta.getColorApuesta().equals(ColorApuesta.ROJO)) {
                         int numRandom = (int) (Math.random() * 2);
                         System.out.println(numRandom);
                         if (apuesta.getColorApuesta().equals(ColorApuesta.NEGRO)) {
@@ -76,6 +79,8 @@ public class ApuestaDAOImp implements ApuestaDAO{
                             }
                         }
                     }
+                    else
+                        throw new BadRequestException("Colores validos: NEGRO - ROJO");
                 }
 
                 if (apuesta.getCantidad() == null)
