@@ -8,15 +8,10 @@ import com.ibm.academia.RuletaApiRest.ruletaApi.exceptions.handler.BadRequestExc
 import com.ibm.academia.RuletaApiRest.ruletaApi.repositories.ApuestaRepository;
 import com.ibm.academia.RuletaApiRest.ruletaApi.repositories.RuletaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -55,10 +50,10 @@ public class ApuestaDAOImp implements ApuestaDAO{
                 }
 
                 if (apuesta.getColorApuesta() != null && apuesta.getNumero() == null) {
-                    if (apuesta.getColorApuesta().equals(ColorApuesta.NEGRO) || apuesta.getColorApuesta().equals(ColorApuesta.ROJO)) {
+                    if (apuesta.getColorApuesta().equals("NEGRO") || apuesta.getColorApuesta().equals("ROJO")) {
                         int numRandom = (int) (Math.random() * 2);
                         System.out.println(numRandom);
-                        if (apuesta.getColorApuesta().equals(ColorApuesta.NEGRO)) {
+                        if (apuesta.getColorApuesta().equals("NEGRO")) {
                             if (numRandom == 0) {
                                 apuesta.setColorApuestaResultante(ColorApuesta.NEGRO);
                                 apuesta.setResultadoApuesta(ResultadoApuesta.GANADA);

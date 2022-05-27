@@ -25,8 +25,8 @@ public class Apuesta implements Serializable {
     private Integer numero;
 
     @Column(name = "color_apuesta")
-    @Enumerated(EnumType.STRING)
-    private ColorApuesta colorApuesta;
+    //@Enumerated(EnumType.STRING)
+    private String colorApuesta;
 
     @Column(name = "cantidad", nullable = false)
     private Double  cantidad;
@@ -50,7 +50,7 @@ public class Apuesta implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "apuestas"})
     private Ruleta ruleta;
 
-    public Apuesta(Integer numero, ColorApuesta colorApuesta, Double cantidad) {
+    public Apuesta(Integer numero, String colorApuesta, Double cantidad) {
         this.numero = numero;
         this.colorApuesta = colorApuesta;
         this.cantidad = cantidad;
