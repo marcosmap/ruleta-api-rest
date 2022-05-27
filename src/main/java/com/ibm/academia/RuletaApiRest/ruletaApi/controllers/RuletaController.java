@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -45,7 +46,7 @@ public class RuletaController {
      */
     @GetMapping("/abre/{ruletaId}")
     public ResponseEntity<?> abreRuleta (@PathVariable Integer ruletaId) {
-        return new ResponseEntity<String>(ruletaDAO.abreRuleta(ruletaId), HttpStatus.ACCEPTED);
+        return ruletaDAO.abreRuleta(ruletaId);
     }
 
     /**

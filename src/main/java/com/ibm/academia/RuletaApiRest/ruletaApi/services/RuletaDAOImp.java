@@ -6,6 +6,8 @@ import com.ibm.academia.RuletaApiRest.ruletaApi.exceptions.handler.BadRequestExc
 import com.ibm.academia.RuletaApiRest.ruletaApi.exceptions.handler.NotFoundException;
 import com.ibm.academia.RuletaApiRest.ruletaApi.repositories.RuletaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,13 +26,17 @@ public class RuletaDAOImp implements RuletaDAO{
 
     @Override
     @Transactional
-    public String abreRuleta(Integer id) {
-        Ruleta ruleta = ruletaRepository.findById(id).get();
-        if (!ruleta.isEstadoRuleta()) {
-            ruleta.setEstadoRuleta(true);
-            ruleta.setHoraApertura(new Date());
-            ruletaRepository.save(ruleta);
-            return String.format("Ruleta con ID: %d ha sido abierta", id);
+    public ResponseEntity<?> abreRuleta(Integer id) {
+        Optional<Ruleta> ruleta = ruletaRepository.findById(id);
+        if (!ruleta.isPresent())
+            throw new NotFoundException(String.format("La ruleta con ID: %d no existe", id));
+        if (!ruleta.get().isEstadoRuleta()) {
+            ruleta.get().setEstadoRuleta(true);
+            ruleta.get().setHoraApertura(new Date());
+            ruletaRepository.save(ruleta.get());
+            Map<String, Object> respuesta = new HashMap<String, Object>();
+            respuesta.put("estado", String.format("La ruleta con ID: %d ha sido abierta", id));
+            return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.OK);
         }
         else
             throw new BadRequestException(String.format("La ruleta con ID: %d esta abierta", id));
